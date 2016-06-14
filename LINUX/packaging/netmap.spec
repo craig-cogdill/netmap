@@ -29,13 +29,6 @@ make CONFIG_MODULE_SIG=n
 cd ~/rpmbuild/BUILD/%{name}/
 /bin/cp LINUX/netmap.ko $RPM_BUILD_ROOT/lib/modules/@KERNEL_VERSION@.x86_64/extra/
 
-/bin/mkdir -p $RPM_BUILD_ROOT/usr/local/probe/include/net
-/bin/cp sys/net/*.h $RPM_BUILD_ROOT/usr/local/probe/include/net
-
-/bin/mkdir -p $RPM_BUILD_ROOT/etc/udev/rules.d/
-echo 'KERNEL=="netmap", GROUP="dpi"' > $RPM_BUILD_ROOT/etc/udev/rules.d/010_netmap.rules
-
-%post
 depmod -a
 grep -q "modprobe netmap" /etc/rc.modules 2&>1 > /dev/null
 if [ $? -ne 0 ]
